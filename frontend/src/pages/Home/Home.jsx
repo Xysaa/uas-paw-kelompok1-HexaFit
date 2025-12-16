@@ -131,7 +131,6 @@ const Home = () => {
               <div className="trainers-container">
                 <div className="classes-header">
                   <div>
-                    <p className="trainers-badge">OUR TRAINERS</p>
                     <h2 className="classes-title">Meet Our <span className="classes-title-accent">Trainers</span></h2>
                     <p className="classes-subtitle">Pilih trainer terbaik dan kenali tim kami.</p>
                   </div>

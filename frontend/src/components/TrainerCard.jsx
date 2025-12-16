@@ -8,12 +8,9 @@ const TrainerCard = ({ trainer }) => {
       whileHover={{ scale: 1.02 }}
       transition={{ type: 'spring', stiffness: 260 }}
     >
-      {/* Header (image + status) */}
-      <div className="class-card-header">
-        <div className="trainer-image-wrapper">
-          <img src={trainer.image} alt={trainer.name} className="trainer-image" />
-        </div>
-        <div className="class-card-status" title="Available"></div>
+      {/* Image (full width) */}
+      <div className="trainer-image-wrapper">
+        <img src={trainer.image} alt={trainer.name} className="trainer-image" />
       </div>
 
       {/* Body */}
