@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/authContext';
+import { AuthProvider } from './context/authContext';
 import { ProtectedRoute, RoleProtectedRoute } from './components/ProtectedRoute';
+import './App.css'; // Import CSS yang sudah direfactor
 
 //  Layout Components
 import Navbar from './components/Navbar';
@@ -10,7 +11,8 @@ import Footer from './components/Footer';
 //  Public Pages
 import Home from './pages/Home/Home';         
 import Login from './pages/Login/Login';      
-import Register from './pages/Register/Register'; 
+import Register from './pages/Register/Register';
+// About & Contact sekarang di Home.jsx (one-page)
 
 //  Protected Pages (Role-based)
 import MemberDashboard from './pages/Dashboard/MemberDashboard';
@@ -20,11 +22,11 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="min-h-screen bg-gym-black text-white flex flex-col">
+        <div className="app-container">
           
           <Navbar />
 
-          <main className="flex-grow">
+          <main className="main-content">
             <Routes>
               {/* Public Routes */}
               <Route path="/" element={<Home />} />

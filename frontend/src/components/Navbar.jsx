@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/authContext';
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { isAuthenticated, user, logout } = useAuth();
   const [showUserMenu, setShowUserMenu] = useState(false);
 
@@ -13,57 +14,96 @@ const Navbar = () => {
     navigate('/');
   };
 
+  // Helper function untuk smooth scroll ke section
+  const scrollToSection = (sectionId) => {
+    if (location.pathname !== '/') {
+      // Jika tidak di home page, navigate dulu ke home
+      navigate('/');
+      setTimeout(() => {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+      // Jika sudah di home page, langsung scroll
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <nav className="bg-gym-black border-b border-gray-800 sticky top-0 z-50 shadow-lg shadow-green-900/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <nav className="navbar">
+      <div className="navbar-container">
+        <div className="navbar-content">
           
-          {/* Logo */}
-          <div className="flex items-center cursor-pointer" onClick={() => navigate('/')}>
-            <span className="text-2xl font-black italic tracking-wider text-white">
-              Hexa<span className="text-gym-green">Fit</span>
-            </span>
-          </div>
+          {/* Logo - Scroll to top */}
+          <button 
+            onClick={() => scrollToSection('home')}
+            className="navbar-logo"
+          >
+            Hexa<span className="navbar-logo-accent">Fit</span>
+          </button>
 
           {/* Menu Desktop */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-6">
-              <Link to="/" className="text-white hover:text-gym-green px-3 py-2 text-sm font-bold transition uppercase">
+          <div className="navbar-menu">
+            <div className="navbar-menu-list">
+              {/* Home - Scroll to top */}
+              <button 
+                onClick={() => scrollToSection('home')}
+                className="navbar-link"
+              >
                 Home
-              </Link>
+              </button>
               
               {/* Show Dashboard link jika sudah login */}
               {isAuthenticated && (
                 <Link 
                   to={user?.role === 'trainer' ? '/trainer/dashboard' : '/member/dashboard'} 
-                  className="text-white hover:text-gym-green px-3 py-2 text-sm font-bold transition uppercase"
+                  className="navbar-link"
                 >
                   Dashboard
                 </Link>
               )}
+
+              {/* About - Scroll to section */}
+              <button 
+                onClick={() => scrollToSection('about')}
+                className="navbar-link"
+              >
+                About
+              </button>
               
-              <a href="#classes" className="text-white hover:text-gym-green px-3 py-2 text-sm font-bold transition uppercase">
+              {/* Classes - Scroll to section */}
+              <button 
+                onClick={() => scrollToSection('classes')}
+                className="navbar-link"
+              >
                 Classes
-              </a>
+              </button>
+
+              {/* Contact - Scroll to section */}
+              <button 
+                onClick={() => scrollToSection('contact')}
+                className="navbar-link"
+              >
+                Contact
+              </button>
               
               {/* Show Login atau User Menu */}
               {!isAuthenticated ? (
                 <button 
                   onClick={() => navigate('/login')}
-                  className="bg-transparent border-2 border-gym-green text-gym-green hover:bg-gym-green hover:text-black px-6 py-2 rounded-full text-sm font-extrabold transition-all duration-300 transform hover:scale-105"
+                  className="navbar-btn-login"
                 >
                   LOGIN
                 </button>
               ) : (
-                <div className="relative">
+                <div className="navbar-user-menu">
                   <button 
                     onClick={() => setShowUserMenu(!showUserMenu)}
-                    className="flex items-center space-x-2 bg-zinc-800 hover:bg-zinc-700 px-4 py-2 rounded-full transition"
+                    className="navbar-user-btn"
                   >
-                    <div className="w-8 h-8 bg-gym-green rounded-full flex items-center justify-center font-bold text-black">
+                    <div className="navbar-user-avatar">
                       {user?.name?.charAt(0).toUpperCase()}
                     </div>
-                    <span className="text-white font-bold text-sm">{user?.name}</span>
+                    <span className="navbar-user-name">{user?.name}</span>
                     <svg className={`w-4 h-4 text-gray-400 transition-transform ${showUserMenu ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
@@ -71,16 +111,16 @@ const Navbar = () => {
 
                   {/* Dropdown Menu */}
                   {showUserMenu && (
-                    <div className="absolute right-0 mt-2 w-56 bg-zinc-900 border border-zinc-700 rounded-lg shadow-lg py-2">
-                      <div className="px-4 py-2 border-b border-zinc-700">
-                        <p className="text-xs text-gray-500 uppercase">Role</p>
-                        <p className="text-sm font-bold text-gym-green capitalize">{user?.role}</p>
+                    <div className="navbar-user-dropdown">
+                      <div className="navbar-dropdown-header">
+                        <p className="navbar-dropdown-label">Role</p>
+                        <p className="navbar-dropdown-role">{user?.role}</p>
                       </div>
                       
                       <Link 
                         to={user?.role === 'trainer' ? '/trainer/dashboard' : '/member/dashboard'}
                         onClick={() => setShowUserMenu(false)}
-                        className="block px-4 py-2 text-sm text-white hover:bg-zinc-800 transition"
+                        className="navbar-dropdown-link"
                       >
                         <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
@@ -90,7 +130,7 @@ const Navbar = () => {
                       
                       <button 
                         onClick={handleLogout}
-                        className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-zinc-800 transition"
+                        className="navbar-dropdown-logout"
                       >
                         <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>

@@ -2,8 +2,8 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="bg-zinc-900 border-t border-zinc-800 py-8 mt-12">
-      <div className="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
+    <footer className="footer">
+      <div className="footer-container">
         <p>&copy; 2025 HexaFit System.</p>
       </div>
     </footer>
