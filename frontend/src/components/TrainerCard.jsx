@@ -40,4 +40,8 @@ const TrainerCard = ({ trainer }) => {
   );
 };
 
+<<<<<<< Updated upstream
 export default TrainerCard;
+=======
+export default TrainerCard;
+>>>>>>> Stashed changes

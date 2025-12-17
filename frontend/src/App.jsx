@@ -18,6 +18,9 @@ import Register from './pages/Register/Register';
 import MemberDashboard from './pages/Dashboard/MemberDashboard';
 import TrainerDashboard from './pages/Dashboard/TrainerDashboard';
 
+import MemberClasses from './pages/Classes/MemberClasses';
+import TrainerClasses from './pages/Classes/TrainerClasses';
+
 function App() {
   return (
     <AuthProvider>
@@ -63,6 +66,36 @@ function App() {
                 } 
               />
 
+              {/* Rute Khusus Trainer: Manage Kelas (CRUD) */}
+              <Route 
+                path="/trainer/classes" 
+                element={
+                  <RoleProtectedRoute allowedRoles={['trainer']}>
+                    <TrainerClasses />
+                  </RoleProtectedRoute>
+                } 
+              />
+
+              {/* Rute Khusus Member: Lihat & Booking Kelas */}
+              <Route 
+                path="member/classes" 
+                element={
+                  <RoleProtectedRoute allowedRoles={['member']}>
+                    <MemberClasses />
+                  </RoleProtectedRoute>
+                } 
+              />
+
+              {/* Redirect untuk /dashboard umum (auto redirect sesuai role) */}
+              <Route 
+                path="/classes" 
+                element={
+                  <ProtectedRoute>
+                    <DashboardRedirect />
+                  </ProtectedRoute>
+                } 
+              />
+
               {/* Redirect URL yang tidak valid */}
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
@@ -85,6 +118,16 @@ const DashboardRedirect = () => {
   }
   
   return <Navigate to="/member/dashboard" replace />;
+};
+
+const ClassesRedirect = () => {
+  const { user } = useAuth();
+  
+  if (user?.role === 'trainer') {
+    return <Navigate to="/trainer/classes" replace />;
+  }
+  
+  return <Navigate to="/member/classes" replace />;
 };
 
 export default App;

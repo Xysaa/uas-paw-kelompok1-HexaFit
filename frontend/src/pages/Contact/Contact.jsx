@@ -72,8 +72,8 @@ const Contact = () => {
                 <div>
                   <h3 className="text-lg font-bold text-white mb-2">Location</h3>
                   <p className="text-gray-400 text-sm leading-relaxed">
-                    Jl. Fitness Boulevard No. 88<br/>
-                    Jakarta Selatan 12345<br/>
+                    Jl. Terusan Ryacudu<br/>
+                    Lampung Selatan 35365<br/>
                     Indonesia
                   </p>
                 </div>

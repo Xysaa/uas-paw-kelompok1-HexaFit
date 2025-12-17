@@ -291,6 +291,22 @@
   border-bottom: 1px solid #27272a;
 }
 
+/* Background Image Overlay for Hero */
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('./images/gym 2.jpg'); /* PATH GAMBAR ANDA */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.15; /* Transparansi agar teks tetap terbaca */
+  z-index: 0;
+}
+
 .hero-gradient {
   position: absolute;
   top: 0;
@@ -614,22 +630,6 @@
   overflow: hidden;
 }
 
-/* Background Image Overlay */
-.about-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url('./images/gym 2.jpg'); /* PATH GAMBAR ANDA */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.15; /* Transparansi agar teks tetap terbaca */
-  z-index: 0;
-}
-
 .about-container {
   max-width: 80rem;
   margin: 0 auto;
@@ -704,18 +704,17 @@
 
 .about-icon-box {
   aspect-ratio: 1;
-  background: linear-gradient(to bottom right, rgba(57, 255, 20, 0.2), transparent);
   border-radius: 1rem;
-  border: 1px solid rgba(57, 255, 20, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.about-icon-box svg {
-  width: 8rem;
-  height: 8rem;
-  color: #39ff14;
+.about-icon-box img {
+  width: 80%;
+  height: 80%; 
+  object-fit: contain;
+  border-radius: 30px;
 }
 /* 
    7. CONTACT SECTION

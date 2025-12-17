@@ -100,13 +100,15 @@ const Navbar = () => {
                 About
               </button>
               
-              {/* Classes */}
-              <button 
-                onClick={() => scrollToSection('classes')}
-                className="navbar-link"
-              >
-                Classes
-              </button>
+              {/* Classes - Show if logged in */}
+              {isAuthenticated && (
+                <Link 
+                  to={user?.role === 'trainer' ? '/trainer/classes' : '/member/classes'} 
+                  className="navbar-link"
+                >
+                  Classes
+                </Link>
+              )}
 
               {/* Contact */}
               <button 

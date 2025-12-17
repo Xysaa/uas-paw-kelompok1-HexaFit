@@ -119,9 +119,11 @@ const Home = () => {
             {/* Icon Placeholder */}
             <div className="about-icon-container">
               <div className="about-icon-box">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                </svg>
+                <img 
+                    src="/images/1.png" 
+                    alt="HexaFit Logo" 
+                    className="w-full h-full object-contain"
+                  />
               </div>
             </div>
           </div>
