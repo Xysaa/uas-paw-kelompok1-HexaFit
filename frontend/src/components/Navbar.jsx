@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { useAuth } from '../context/authContext';
 import { motion } from 'framer-motion';
 
@@ -27,47 +28,77 @@ const Navbar = () => {
     }
   };
 
+  // Framer Motion variants
+  const navbarVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.3 },
+    },
+  };
+
+  const menuItemVariants = {
+    hidden: { opacity: 0, y: -10 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.05,
+        duration: 0.3,
+      },
+    }),
+  };
+
+  const dropdownVariants = {
+    hidden: { opacity: 0, y: -10, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { duration: 0.2 },
+    },
+    exit: {
+      opacity: 0,
+      y: -10,
+      scale: 0.95,
+      transition: { duration: 0.15 },
+    },
+  };
+
   return (
-    <nav className="navbar">
+    <motion.nav
+      className="navbar"
+      variants={navbarVariants}
+      initial="hidden"
+      animate="visible"
+    >
       <div className="navbar-container">
         <div className="navbar-content">
           
           {/* Logo dengan Icon */}
+<<<<<<< Updated upstream
           <motion.button 
             onClick={() => scrollToSection('home')}
             className="navbar-logo"
             whileTap={{ scale: 0.97 }}
             whileHover={{ scale: 1.02 }}
+=======
+          <motion.button
+            onClick={() => scrollToSection('home')}
+            className="navbar-logo"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+>>>>>>> Stashed changes
           >
-            {/* OPSI 1: SVG Icon Dumbbell Inline */}
-            {/* <svg 
-              className="w-8 h-8 mr-2" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-              style={{ color: '#39ff14' }}
-            >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth="2" 
-                d="M3 5h2M3 19h2m14-14h2m-2 14h2M7 5a2 2 0 012-2h6a2 2 0 012 2v14a2 2 0 01-2 2H9a2 2 0 01-2-2V5z"
-              />
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth="2" 
-                d="M9 10h6M9 14h6"
-              />
-            </svg> */}
-
-            {/* OPSI 2: Jika pakai gambar PNG/SVG dari file */}
-            {<img 
-              src="/images/1.png" 
-              alt="HexaFit Logo" 
+            <motion.img
+              src="/images/1.png"
+              alt="HexaFit Logo"
               className="w-8 h-8 mr-2"
-            />}
-
+              animate={{ rotate: [0, 5, -5, 0] }}
+              transition={{ repeat: Infinity, duration: 3 }}
+            />
             Hexa<span className="navbar-logo-accent">Fit</span>
           </motion.button>
 
@@ -75,19 +106,47 @@ const Navbar = () => {
           <div className="navbar-menu">
             <div className="navbar-menu-list">
               {/* Home */}
-              <button 
+              <motion.button
                 onClick={() => scrollToSection('home')}
                 className="navbar-link"
+                custom={0}
+                variants={menuItemVariants}
+                initial="hidden"
+                animate="visible"
+                whileHover={{ color: '#39ff14', scale: 1.05 }}
+                transition={{ duration: 0.2 }}
               >
                 Home
+<<<<<<< Updated upstream
               </button>
               
+=======
+              </motion.button>
+
+              {/* About */}
+              <motion.button
+                onClick={() => scrollToSection('about')}
+                className="navbar-link"
+                custom={1}
+                variants={menuItemVariants}
+                initial="hidden"
+                animate="visible"
+                whileHover={{ color: '#39ff14', scale: 1.05 }}
+                transition={{ duration: 0.2 }}
+              >
+                About
+              </motion.button>
+
+>>>>>>> Stashed changes
               {/* Dashboard - Show if logged in */}
               {isAuthenticated && (
-                <Link 
-                  to={user?.role === 'trainer' ? '/trainer/dashboard' : '/member/dashboard'} 
-                  className="navbar-link"
+                <motion.div
+                  custom={2}
+                  variants={menuItemVariants}
+                  initial="hidden"
+                  animate="visible"
                 >
+<<<<<<< Updated upstream
                   Dashboard
                 </Link>
               )}
@@ -110,83 +169,233 @@ const Navbar = () => {
                 </Link>
               )}
 
+=======
+                  <Link
+                    to={user?.role === 'trainer' ? '/trainer/dashboard' : '/member/dashboard'}
+                    className="navbar-link"
+                  >
+                    Dashboard
+                  </Link>
+                </motion.div>
+              )}
+
+              {/* Classes - Show if logged in */}
+              {isAuthenticated && (
+                <motion.div
+                  custom={3}
+                  variants={menuItemVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  <Link
+                    to={user?.role === 'trainer' ? '/trainer/classes' : '/member/classes'}
+                    className="navbar-link"
+                  >
+                    Classes
+                  </Link>
+                </motion.div>
+              )}
+
+              {/* Memberships - Show if logged in */}
+              {isAuthenticated && (
+                <motion.div
+                  custom={4}
+                  variants={menuItemVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  <Link
+                    to={user?.role === 'trainer' ? '/trainer/memberships' : '/member/memberships'}
+                    className="navbar-link"
+                  >
+                    Memberships
+                  </Link>
+                </motion.div>
+              )}
+
+>>>>>>> Stashed changes
               {/* Contact */}
-              <button 
+              <motion.button
                 onClick={() => scrollToSection('contact')}
                 className="navbar-link"
+                custom={isAuthenticated ? 5 : 2}
+                variants={menuItemVariants}
+                initial="hidden"
+                animate="visible"
+                whileHover={{ color: '#39ff14', scale: 1.05 }}
+                transition={{ duration: 0.2 }}
               >
                 Contact
-              </button>
-              
+              </motion.button>
+
               {/* Login / User Menu */}
               {!isAuthenticated ? (
-                <button 
+                <motion.button
                   onClick={() => navigate('/login')}
                   className="navbar-btn-login"
+                  custom={isAuthenticated ? 6 : 3}
+                  variants={menuItemVariants}
+                  initial="hidden"
+                  animate="visible"
+                  whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(57, 255, 20, 0.5)' }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ duration: 0.2 }}
                 >
                   LOGIN
-                </button>
+                </motion.button>
               ) : (
-                <div className="navbar-user-menu">
-                  <button 
+                <motion.div
+                  className="navbar-user-menu"
+                  custom={isAuthenticated ? 6 : 3}
+                  variants={menuItemVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  <motion.button
                     onClick={() => setShowUserMenu(!showUserMenu)}
                     className="navbar-user-btn"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    <div className="navbar-user-avatar">
+                    <motion.div
+                      className="navbar-user-avatar"
+                      animate={{ scale: showUserMenu ? 1.1 : 1 }}
+                      transition={{ duration: 0.2 }}
+                    >
                       {user?.name?.charAt(0).toUpperCase()}
-                    </div>
+                    </motion.div>
                     <span className="navbar-user-name">{user?.name}</span>
-                    <svg className={`w-4 h-4 text-gray-400 transition-transform ${showUserMenu ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                  </button>
+                    <motion.svg
+                      className="w-4 h-4 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      animate={{ rotate: showUserMenu ? 180 : 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 9l-7 7-7-7"
+                      ></path>
+                    </motion.svg>
+                  </motion.button>
 
                   {/* Dropdown Menu */}
                   {showUserMenu && (
+<<<<<<< Updated upstream
                     <motion.div className="navbar-user-dropdown" initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.12 }}>
+=======
+                    <motion.div
+                      className="navbar-user-dropdown"
+                      variants={dropdownVariants}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                    >
+>>>>>>> Stashed changes
                       <div className="navbar-dropdown-header">
                         <p className="navbar-dropdown-label">Role</p>
-                        <p className="navbar-dropdown-role">{user?.role}</p>
+                        <motion.p
+                          className="navbar-dropdown-role"
+                          animate={{ color: '#39ff14' }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          {user?.role}
+                        </motion.p>
                       </div>
-                      
-                      <Link 
-                        to={user?.role === 'trainer' ? '/trainer/dashboard' : '/member/dashboard'}
-                        onClick={() => setShowUserMenu(false)}
-                        className="navbar-dropdown-link"
+
+                      <motion.div
+                        whileHover={{ backgroundColor: 'rgba(57, 255, 20, 0.1)' }}
+                        transition={{ duration: 0.2 }}
                       >
-                        <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                        </svg>
-                        Dashboard
-                      </Link>
-                      
-                      <button 
-                        onClick={handleLogout}
-                        className="navbar-dropdown-logout"
+                        <Link
+                          to={user?.role === 'trainer' ? '/trainer/dashboard' : '/member/dashboard'}
+                          onClick={() => setShowUserMenu(false)}
+                          className="navbar-dropdown-link"
+                        >
+                          <svg
+                            className="w-4 h-4 inline mr-2"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                            ></path>
+                          </svg>
+                          Dashboard
+                        </Link>
+                      </motion.div>
+
+                      <motion.div
+                        whileHover={{ backgroundColor: 'rgba(255, 59, 48, 0.1)' }}
+                        transition={{ duration: 0.2 }}
                       >
+<<<<<<< Updated upstream
                         <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                         </svg>
                         Logout
                       </button>
+=======
+                        <button
+                          onClick={handleLogout}
+                          className="navbar-dropdown-logout"
+                        >
+                          <svg
+                            className="w-4 h-4 inline mr-2"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                            ></path>
+                          </svg>
+                          Logout
+                        </button>
+                      </motion.div>
+>>>>>>> Stashed changes
                     </motion.div>
                   )}
-                </div>
+                </motion.div>
               )}
             </div>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          <motion.div
+            className="md:hidden"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
             <button className="text-white">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                ></path>
               </svg>
             </button>
-          </div>
+          </motion.div>
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 };
 

@@ -1,26 +1,30 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/authContext';
+import { AuthProvider, useAuth } from './context/authContext';
 import { ProtectedRoute, RoleProtectedRoute } from './components/ProtectedRoute';
-import './App.css'; // Import CSS yang sudah direfactor
+import './App.css';
 
-//  Layout Components
+// Layout Components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
-//  Public Pages
+// Public Pages
 import Home from './pages/Home/Home';         
 import Login from './pages/Login/Login';      
 import Register from './pages/Register/Register';
-// About & Contact sekarang di Home.jsx (one-page)
 
-//  Protected Pages (Role-based)
+// Protected Pages (Role-based)
 import MemberDashboard from './pages/Dashboard/MemberDashboard';
 import TrainerDashboard from './pages/Dashboard/TrainerDashboard';
 
 import MemberClasses from './pages/Classes/MemberClasses';
 import TrainerClasses from './pages/Classes/TrainerClasses';
 
+<<<<<<< Updated upstream
+=======
+import MemberMemberships from './pages/Memberships/MemberMemberships';
+
+>>>>>>> Stashed changes
 function App() {
   return (
     <AuthProvider>
@@ -36,7 +40,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               
-              {/* Protected Routes - Member Only */}
+              {/* Protected Routes - Member Dashboard */}
               <Route 
                 path="/member/dashboard" 
                 element={
@@ -46,7 +50,7 @@ function App() {
                 } 
               />
 
-              {/* Protected Routes - Trainer Only */}
+              {/* Protected Routes - Trainer Dashboard */}
               <Route 
                 path="/trainer/dashboard" 
                 element={
@@ -56,7 +60,7 @@ function App() {
                 } 
               />
               
-              {/* Redirect untuk /dashboard umum (auto redirect sesuai role) */}
+              {/* Redirect untuk /dashboard umum */}
               <Route 
                 path="/dashboard" 
                 element={
@@ -66,7 +70,7 @@ function App() {
                 } 
               />
 
-              {/* Rute Khusus Trainer: Manage Kelas (CRUD) */}
+              {/* Protected Routes - Trainer Classes Management */}
               <Route 
                 path="/trainer/classes" 
                 element={
@@ -76,9 +80,9 @@ function App() {
                 } 
               />
 
-              {/* Rute Khusus Member: Lihat & Booking Kelas */}
+              {/* Protected Routes - Member Classes Booking */}
               <Route 
-                path="member/classes" 
+                path="/member/classes" 
                 element={
                   <RoleProtectedRoute allowedRoles={['member']}>
                     <MemberClasses />
@@ -86,16 +90,39 @@ function App() {
                 } 
               />
 
-              {/* Redirect untuk /dashboard umum (auto redirect sesuai role) */}
+              {/* Redirect untuk /classes umum */}
               <Route 
                 path="/classes" 
                 element={
                   <ProtectedRoute>
-                    <DashboardRedirect />
+                    <ClassesRedirect />
                   </ProtectedRoute>
                 } 
               />
 
+<<<<<<< Updated upstream
+=======
+              {/* Protected Routes - Member Memberships */}
+              <Route 
+                path="/member/memberships" 
+                element={
+                  <RoleProtectedRoute allowedRoles={['member']}>
+                    <MemberMemberships />
+                  </RoleProtectedRoute>
+                } 
+              />
+
+              {/* Redirect untuk /memberships umum */}
+              <Route 
+                path="/memberships" 
+                element={
+                  <ProtectedRoute>
+                    <MembershipsRedirect />
+                  </ProtectedRoute>
+                } 
+              />
+
+>>>>>>> Stashed changes
               {/* Redirect URL yang tidak valid */}
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
@@ -120,6 +147,7 @@ const DashboardRedirect = () => {
   return <Navigate to="/member/dashboard" replace />;
 };
 
+// Component untuk auto-redirect classes sesuai role
 const ClassesRedirect = () => {
   const { user } = useAuth();
   
@@ -128,6 +156,17 @@ const ClassesRedirect = () => {
   }
   
   return <Navigate to="/member/classes" replace />;
+};
+
+// Component untuk auto-redirect memberships sesuai role
+const MembershipsRedirect = () => {
+  const { user } = useAuth();
+  
+  if (user?.role === 'trainer') {
+    return <Navigate to="/trainer/memberships" replace />;
+  }
+  
+  return <Navigate to="/member/memberships" replace />;
 };
 
 export default App;
