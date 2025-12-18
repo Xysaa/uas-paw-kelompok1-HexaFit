@@ -1,69 +1,56 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import { createContext, useContext, useEffect, useState } from "react";
+import { meApi } from "../api/auth.api";
 
-const AuthContext = createContext();
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within AuthProvider');
-  }
-  return context;
-};
+const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Check authentication on mount
-  useEffect(() => {
-    const token = localStorage.getItem('gym_token');
-    const userData = localStorage.getItem('user');
-    
-    if (token && userData) {
-      try {
-        const parsedUser = JSON.parse(userData);
-        setUser(parsedUser);
-        setIsAuthenticated(true);
-      } catch (error) {
-        console.error('Error parsing user data:', error);
-        logout();
-      }
-    }
-    setIsLoading(false);
-  }, []);
+  const [loading, setLoading] = useState(true);
 
   const login = (userData, token) => {
-    localStorage.setItem('gym_token', token);
-    localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.setItem("access_token", token);
     setUser(userData);
-    setIsAuthenticated(true);
   };
 
   const logout = () => {
-    localStorage.removeItem('gym_token');
-    localStorage.removeItem('user');
+    localStorage.removeItem("access_token");
     setUser(null);
-    setIsAuthenticated(false);
   };
 
-  // Helper functions untuk cek role
-  const isMember = () => user?.role === 'member';
-  const isTrainer = () => user?.role === 'trainer';
+  useEffect(() => {
+    const init = async () => {
+      const token = localStorage.getItem("access_token");
+      if (!token) {
+        setLoading(false);
+        return;
+      }
 
-  const value = {
-    user,
-    isAuthenticated,
-    isLoading,
-    login,
-    logout,
-    isMember,
-    isTrainer
-  };
+      try {
+        const res = await meApi();
+        setUser(res.data);
+      } catch (err) {
+        logout();
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    init();
+  }, []);
 
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider
+      value={{
+        user,
+        isAuthenticated: !!user,
+        loading,
+        login,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
+
+export const useAuth = () => useContext(AuthContext);
