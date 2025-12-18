@@ -8,7 +8,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
 // Public
-import Home from "./pages/Home/Home";
+import Home from "./pages/home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import PricingPage from "./pages/pricing/Pages";
