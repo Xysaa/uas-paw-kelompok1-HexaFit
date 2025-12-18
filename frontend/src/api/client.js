@@ -1,15 +1,23 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:6543",
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   timeout: 15000,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
-// Optional: attach token kalau kamu simpan di localStorage
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("access_token");
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
-});
+// Attach Bearer Token (JWT)
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 export default api;
