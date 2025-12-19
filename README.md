@@ -71,8 +71,8 @@ Platform booking kelas gym terintegrasi yang memungkinkan Member untuk mendaftar
 ---
 
 ## 🌐 Deployment
-* **Frontend:** [Link Vercel ]
-* **Backend:** [Link Domain *.web.id ]
+* **Frontend:** [Frontend HexaFit](tubes-paw.vercel.app)
+* **Backend:** [Backend HexaFit](api.hexafit.web.id)
 
 ---
 
@@ -96,5 +96,4 @@ Platform booking kelas gym terintegrasi yang memungkinkan Member untuk mendaftar
 
 ---
 
-## 🎥 Video Presentasi
-Link Youtube : [Link Video YouTube/Drive]
+
